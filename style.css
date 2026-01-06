@@ -1,31 +1,47 @@
-.card{
-  width:64px;
-  height:96px;
-  background:linear-gradient(180deg,#fff,#f1f1f1);
-  border-radius:10px;
-  padding:6px;
+.cards{
   display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  box-shadow:0 8px 20px rgba(0,0,0,.45);
-  animation: pop .25s ease;
+  gap:10px;
+  justify-content:center;
+  margin:10px 0;
 }
 
-.card.red{ color:#c92a2a }
-.card.black{ color:#111 }
-
-.rank{
-  font-size:16px;
+.card{
+  width:70px;
+  height:100px;
+  background:white;
+  border-radius:10px;
+  border:2px solid #111;
+  position:relative;
   font-weight:900;
+  box-shadow:0 6px 14px rgba(0,0,0,.6);
 }
 
-.rank.bottom{
-  transform: rotate(180deg);
-  text-align:right;
+.card.red{color:#c92a2a;}
+.card.black{color:#111;}
+
+.card .corner{
+  position:absolute;
+  font-size:16px;
+  line-height:1;
 }
 
-.suit.center{
-  font-size:30px;
-  text-align:center;
+.card .top{
+  top:6px;
+  left:6px;
 }
+
+.card .bottom{
+  bottom:6px;
+  right:6px;
+  transform:rotate(180deg);
+}
+
+.card .center{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:32px;
+}
+
 

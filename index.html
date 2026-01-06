@@ -176,6 +176,8 @@ $('#dealBtn').onclick=()=>{
 const dealer = document.querySelector('.dealer');
 dealer.classList.add('dealing');
 setTimeout(()=>dealer.classList.remove('dealing'),600);
+animateDeal(-120, 120); // PLAYER 쪽
+animateDeal(120, 120);  // BANKER 쪽
 
   const p=[draw(),draw()], b=[draw(),draw()];
   const ps=score(p), bs=score(b);

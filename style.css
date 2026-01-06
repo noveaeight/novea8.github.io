@@ -1,5 +1,11 @@
-body{
-background:#0a0e17;
+nav a{
+margin:10px;
 color:white;
-text-align:center;
+text-decoration:none;
+}
+
+.item{
+border:1px solid white;
+margin:20px;
+padding:15px;
 }

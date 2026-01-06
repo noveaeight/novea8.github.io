@@ -97,9 +97,17 @@
         </div>
       </div>
       <div class="controls">
-        <button onclick="deal()">한 판 시작</button>
-        <button class="secondary" onclick="resetGame()">리셋</button>
+        <button onclick="selectBet('PLAYER')">플레이어 государственного</button>
+        <button onclick="selectBet('BANKER')">뱅커</button>
+        <button onclick="selectBet('TIE')">타이</button>
       </div>
+      <div class="controls">
+        <button onclick="addBet(1)">+1</button>
+        <button onclick="addBet(10)">+10</button>
+        <button onclick="addBet(50)">+50</button>
+        <button onclick="addBet(100)">+100</button>
+        <button onclick="addBet(500)">+500</button>
+        <button onclick="addBet(1000)">+1000</but
       <div id="status" class="status"></div>
     </div>
     <footer>연습/시뮬레이션용 · 실제 도박 아님</footer>
@@ -166,4 +174,5 @@
   </script>
 </body>
 </html>
+
 

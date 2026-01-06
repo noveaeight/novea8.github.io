@@ -3,118 +3,174 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>바카라 연습 (플레이 머니)</title>
+<title>바카라 연습 (PLAY MONEY)</title>
 <style>
-body{margin:0;font-family:system-ui,sans-serif;background:#1b0000;color:#fff}
-header{text-align:center;padding:12px;font-size:20px;font-weight:900;color:#ffd166}
-.wrap{max-width:100%;margin:0 auto;padding:12px}
-.table{background:radial-gradient(circle at top,#8b0000,#3a0000 70%);border-radius:30px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+:root{
+  --bg:#120000;--felt:#5b0000;--gold:#ffd166;--p:#1c7ed6;--b:#c92a2a;--t:#2f9e44;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(1200px 600px at 50% -200px,#300,#120000);color:#fff}
+header{text-align:center;padding:12px 8px;font-size:22px;font-weight:900;color:var(--gold)}
+.wrap{max-width:1100px;margin:0 auto;padding:12px}
+.table{background:radial-gradient(circle at top,#7a0000,#2a0000 70%);border-radius:28px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.7)}
 
 /* 딜러 */
-.dealer-zone{text-align:center;margin-bottom:6px}
-.ant{width:90px;animation:walk 1.2s infinite alternate}
-@keyframes walk{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
-.dealer-text{font-weight:900;color:#ffd166;font-size:14px}
+.dealer{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+.ant{width:90px}
+.dealer-txt{font-weight:900;color:var(--gold)}
 
-.row{display:flex;gap:12px}
-.col{flex:1;text-align:center}
+/* 카드 영역 */
+.board{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.side{background:rgba(0,0,0,.25);border-radius:16px;padding:10px;text-align:center}
+.side h3{margin:4px 0 6px}
+.cards{display:flex;gap:8px;justify-content:center;min-height:108px}
+.card{width:68px;height:96px;border-radius:10px;background:#fff;color:#111;position:relative;box-shadow:0 8px 16px rgba(0,0,0,.6);animation:fly .35s ease}
+@keyframes fly{from{transform:translateY(-40px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+.card.red{color:#c92a2a}
+.corner{position:absolute;font-size:14px;line-height:1}
+.top{top:6px;left:6px}.bot{bottom:6px;right:6px;transform:rotate(180deg)}
+.center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px}
+.score{font-weight:900;margin-top:4px}
 
-.cards{display:flex;gap:6px;justify-content:center;min-height:90px}
-.card{width:56px;height:78px;background:#fff;border-radius:8px;border:2px solid #111;position:relative;font-weight:900;box-shadow:0 6px 14px rgba(0,0,0,.6);animation:fly .5s ease}
-@keyframes fly{from{transform:translateY(-60px) scale(.7);opacity:0}to{transform:none;opacity:1}}
-.card.red{color:#c92a2a}.card.black{color:#111}
-.corner{position:absolute;font-size:12px;line-height:1}
-.top{top:4px;left:4px}.bottom{bottom:4px;right:4px;transform:rotate(180deg)}
-.center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22px}
+/* 베팅 */
+.bets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0}
+.zone{padding:14px;border-radius:16px;font-weight:900;font-size:18px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.6);user-select:none}
+.zone.player{background:var(--p)}.zone.banker{background:var(--b)}.zone.tie{background:var(--t);color:#111}
+.zone.active{outline:4px solid var(--gold)}
 
-.bet-arc{display:flex;gap:8px;margin:12px 0}
-.zone{flex:1;padding:14px;border-radius:16px;font-weight:900;font-size:16px;cursor:pointer}
-.player{background:#1c7ed6}.banker{background:#c92a2a}.tie{background:#2f9e44;color:#111}
-.zone.active{outline:3px solid #ffd166}
+/* 칩 */
+.chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.chip{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.6)}
+.c1{background:#edf2f4;color:#111}.c10{background:#48cae4;color:#111}.c50{background:#2a9d8f}.c100{background:#e9c46a;color:#111}.c500{background:#f4a261}.c1000{background:#e76f51}
 
-.chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.chip{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
-.c1{background:#edf2f4;color:#111}.c10{background:#48cae4;color:#111}.c50{background:#2a9d8f}.c100{background:#e9c46a;color:#111}
+/* 컨트롤 */
+.controls{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:10px}
+.deal{background:var(--gold);color:#111;font-size:20px;font-weight:900;padding:14px 36px;border:none;border-radius:22px;cursor:pointer}
+.timer{font-weight:900;color:var(--gold)}
 
-.controls{text-align:center;margin-top:10px}
-.deal{background:#ffd166;color:#111;font-size:18px;font-weight:900;padding:12px 30px;border:none;border-radius:20px}
-
-.status{text-align:center;font-weight:900;font-size:14px;margin-top:6px}
-.timer{text-align:center;color:#ffd166;font-size:14px}
+/* 상태 */
+.status{text-align:center;font-weight:900;margin-top:8px}
+.wallet{text-align:center;opacity:.9}
 
 /* 비드맵 */
-.road{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.road{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px}
 .dot{width:14px;height:14px;border-radius:50%}
-.red{background:#c92a2a}.blue{background:#1c7ed6}.green{background:#2f9e44}
+.dot.P{background:#4dabf7}.dot.B{background:#ff6b6b}.dot.T{background:#69db7c}
 
-@media(min-width:600px){.wrap{max-width:480px}}
+/* 모바일 */
+@media (max-width:520px){
+  .board{grid-template-columns:1fr}
+  .card{width:60px;height:86px}
+  .zone{font-size:16px}
+}
 </style>
 </head>
 <body>
 <header>바카라 연습 (PLAY MONEY)</header>
 <div class="wrap">
-<div class="table">
+  <div class="table">
 
-<div class="dealer-zone">
-<svg class="ant" viewBox="0 0 200 200">
-<circle cx="100" cy="60" r="22" fill="#000" />
-<circle cx="100" cy="100" r="28" fill="#111" />
-<circle cx="100" cy="150" r="34" fill="#000" />
-<line x1="78" y1="50" x2="40" y2="30" stroke="#000" stroke-width="6" />
-<line x1="122" y1="50" x2="160" y2="30" stroke="#000" stroke-width="6" />
-</svg>
-<div class="dealer-text">개미 딜러</div>
-</div>
+    <div class="dealer">
+      <svg class="ant" viewBox="0 0 200 200">
+        <circle cx="100" cy="55" r="20" fill="#000"/>
+        <circle cx="100" cy="95" r="26" fill="#111"/>
+        <circle cx="100" cy="140" r="32" fill="#000"/>
+        <line x1="80" y1="45" x2="40" y2="20" stroke="#000" stroke-width="6"/>
+        <line x1="120" y1="45" x2="160" y2="20" stroke="#000" stroke-width="6"/>
+      </svg>
+      <div class="dealer-txt">개미 딜러</div>
+    </div>
 
-<div class="row">
-<div class="col">
-<h4>PLAYER</h4>
-<div id="playerCards" class="cards"></div>
-<div id="playerScore">0</div>
-</div>
-<div class="col">
-<h4>BANKER</h4>
-<div id="bankerCards" class="cards"></div>
-<div id="bankerScore">0</div>
-</div>
-</div>
+    <div class="board">
+      <div class="side">
+        <h3>PLAYER</h3>
+        <div id="pCards" class="cards"></div>
+        <div id="pScore" class="score">점수: 0</div>
+      </div>
+      <div class="side">
+        <h3>BANKER</h3>
+        <div id="bCards" class="cards"></div>
+        <div id="bScore" class="score">점수: 0</div>
+      </div>
+    </div>
 
-<div class="bet-arc">
-<div class="zone player" onclick="selectBet('PLAYER',this)">PLAYER</div>
-<div class="zone tie" onclick="selectBet('TIE',this)">TIE</div>
-<div class="zone banker" onclick="selectBet('BANKER',this)">BANKER</div>
-</div>
+    <div class="bets">
+      <div class="zone player" data-bet="PLAYER">PLAYER</div>
+      <div class="zone tie" data-bet="TIE">TIE</div>
+      <div class="zone banker" data-bet="BANKER">BANKER</div>
+    </div>
 
-<div class="chips">
-<div class="chip c1" onclick="addBet(1)">1</div>
-<div class="chip c10" onclick="addBet(10)">10</div>
-<div class="chip c50" onclick="addBet(50)">50</div>
-<div class="chip c100" onclick="addBet(100)">100</div>
-</div>
+    <div class="chips">
+      <div class="chip c1" data-chip="1">1</div>
+      <div class="chip c10" data-chip="10">10</div>
+      <div class="chip c50" data-chip="50">50</div>
+      <div class="chip c100" data-chip="100">100</div>
+      <div class="chip c500" data-chip="500">500</div>
+      <div class="chip c1000" data-chip="1000">1000</div>
+    </div>
 
-<div class="controls"><button class="deal" onclick="deal()">DEAL</button></div>
-<div id="wallet" class="status"></div>
-<div id="status" class="status"></div>
-<div id="timer" class="timer"></div>
-<div class="road" id="road"></div>
-</div>
+    <div class="controls">
+      <button id="dealBtn" class="deal">DEAL</button>
+      <div id="timer" class="timer"></div>
+    </div>
+
+    <div id="status" class="status"></div>
+    <div id="wallet" class="wallet"></div>
+    <div id="road" class="road"></div>
+
+  </div>
 </div>
 
 <script>
+// ====== 상태 ======
 const suits=['♠','♥','♦','♣'];
 const ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-let coins=1000,betAmount=0,betTarget=null,time;
+let coins=Number(localStorage.getItem('coins')||1000);
+let betTarget=null, betAmount=0;
+let timerId=null, canDeal=false;
 
-function cardValue(r){if(r==='A')return 1;if(['10','J','Q','K'].includes(r))return 0;return parseInt(r)}
-function drawCard(){const s=suits[Math.floor(Math.random()*4)],r=ranks[Math.floor(Math.random()*13)];return{suit:s,rank:r,value:cardValue(r)}}
-function score(cs){return cs.reduce((a,c)=>a+c.value,0)%10}
-function render(el,c){el.innerHTML='';c.forEach(x=>{const d=document.createElement('div');d.className='card '+((x.suit==='♥'||x.suit==='♦')?'red':'black');d.innerHTML=`<div class=corner top>${x.rank}${x.suit}</div><div class=center>${x.suit}</div><div class=corner bottom>${x.rank}${x.suit}</div>`;el.appendChild(d)})}
-function selectBet(t,e){betTarget=t;document.querySelectorAll('.zone').forEach(z=>z.classList.remove('active'));e.classList.add('active')}
-function addBet(a){if(coins>=a){coins-=a;betAmount+=a;wallet.textContent=`코인 ${coins} | 배팅 ${betAmount}`}}
-function startTimer(){let t=5;timer.textContent=`딜까지 ${t}`;clearInterval(time);time=setInterval(()=>{t--;timer.textContent=`딜까지 ${t}`;if(t<=0)clearInterval(time)},1000)}
-startTimer();
-function deal(){if(!betTarget||!betAmount)return;const p=[drawCard(),drawCard()],b=[drawCard(),drawCard()];render(playerCards,p);render(bankerCards,b);const ps=score(p),bs=score(b);playerScore.textContent=ps;bankerScore.textContent=bs;let r='TIE';if(ps>bs)r='PLAYER';else if(bs>ps)r='BANKER';const d=document.createElement('div');d.className='dot '+(r==='PLAYER'?'blue':r==='BANKER'?'red':'green');road.appendChild(d);if(r===betTarget){coins+=betAmount*2;status.textContent='🎉 승리했습니다!'}else{status.textContent='❌ 패배했습니다!'}betAmount=0;betTarget=null;document.querySelectorAll('.zone').forEach(z=>z.classList.remove('active'));wallet.textContent=`코인 ${coins}`;startTimer()}
+// ====== 유틸 ======
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+const pCards=$('#pCards'), bCards=$('#bCards');
+const pScore=$('#pScore'), bScore=$('#bScore');
+const statusEl=$('#status'), walletEl=$('#wallet'), roadEl=$('#road'), timerEl=$('#timer');
+
+function cardValue(r){ if(r==='A')return 1; if(['10','J','Q','K'].includes(r))return 0; return Number(r); }
+function draw(){ const s=suits[Math.floor(Math.random()*4)], r=ranks[Math.floor(Math.random()*13)]; return {suit:s,rank:r,val:cardValue(r)}; }
+function score(cs){ return cs.reduce((a,c)=>a+c.val,0)%10; }
+function render(el,cards){ el.innerHTML=''; cards.forEach(c=>{ const d=document.createElement('div'); d.className='card '+((c.suit==='♥'||c.suit==='♦')?'red':''); d.innerHTML=`<div class="corner top">${c.rank}${c.suit}</div><div class="center">${c.suit}</div><div class="corner bot">${c.rank}${c.suit}</div>`; el.appendChild(d); }); }
+function save(){ localStorage.setItem('coins',coins); }
+function updateWallet(){ walletEl.textContent=`보유 코인: ${coins} | 배팅: ${betAmount}`; }
+
+// ====== 베팅 ======
+$$('.zone').forEach(z=>z.onclick=()=>{
+  $$('.zone').forEach(x=>x.classList.remove('active'));
+  z.classList.add('active'); betTarget=z.dataset.bet; statusEl.textContent=`${betTarget} 선택`; });
+$$('.chip').forEach(c=>c.onclick=()=>{ const v=Number(c.dataset.chip); if(coins>=v && !canDeal){ coins-=v; betAmount+=v; save(); updateWallet(); }});
+
+// ====== 타이머 ======
+function startTimer(sec=5){ clearInterval(timerId); canDeal=false; let t=sec; timerEl.textContent=`베팅 ${t}`;
+  timerId=setInterval(()=>{ t--; timerEl.textContent=`베팅 ${t}`; if(t<=0){ clearInterval(timerId); canDeal=true; timerEl.textContent='딜 가능'; } },1000);
+}
+
+// ====== 게임 ======
+$('#dealBtn').onclick=()=>{
+  if(!canDeal||!betTarget||betAmount<=0) return;
+  canDeal=false;
+  const p=[draw(),draw()], b=[draw(),draw()];
+  const ps=score(p), bs=score(b);
+  render(pCards,p); render(bCards,b);
+  pScore.textContent=`점수: ${ps}`; bScore.textContent=`점수: ${bs}`;
+  let result='TIE'; if(ps>bs)result='PLAYER'; else if(bs>ps)result='BANKER';
+  const dot=document.createElement('div'); dot.className='dot '+(result==='PLAYER'?'P':result==='BANKER'?'B':'T'); roadEl.appendChild(dot);
+  if(result===betTarget){ const win=betAmount*(result==='TIE'?8:2); coins+=win; statusEl.textContent=`결과: ${result} | 🎉 승리했습니다! +${win}`; }
+  else{ statusEl.textContent=`결과: ${result} | ❌ 패배했습니다! -${betAmount}`; }
+  betAmount=0; betTarget=null; $$('.zone').forEach(x=>x.classList.remove('active')); save(); updateWallet(); startTimer();
+};
+
+// ====== 시작 ======
+updateWallet(); startTimer();
 </script>
 </body>
 </html>
-

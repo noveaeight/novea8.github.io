@@ -3,47 +3,44 @@
 <head>
 <meta charset=”UTF-8“>
 <meta name=”viewport“ content=”width=device-width, initial-scale=1.0“>
-<title>NOVÉA8</title>
+<title>Practice Baccarat</title>
 <link rel=”stylesheet“ href=”style.css“>
 </head>
 
 <body>
 
-<nav class=”nav“>
-<a href=”index.html“>HOME</a>
-<a href=”shop.html“>SHOP</a>
-<a href=”contact.html“>CONTACT</a>
-</nav>
+<h1>바카라 게임 – 연습용</h1>
 
-<header class=”hero“>
-<h1>NOVÉA8</h1>
-<p>Wear the endless star</p>
-</header>
+<div class=”gamebox“>
+<p>가짜 칩: <span id=”chip“>1000</span></p>
 
-<section class=”story“>
-<h2>Brand Story</h2>
-<p>
-별의 감성과 숫자 8의 무한대를 결합한 미래적인 스트리트 브랜드 — 연습 사이트입니다.
-</p>
-</section>
+<button onclick=”play()“>게임 시작</button>
 
-<h2>Featured Items</h2>
-
-<div class=”item“>
-<h3>T-shirt 01</h3>
-<p>₩29,000 (practice)</p>
-<button>구매하기 – 연습</button>
+<p id=”result“></p>
 </div>
 
-<div class=”item“>
-<h3>Cap 01</h3>
-<p>₩19,000 (practice)</p>
-<button>구매하기 – 연습</button>
-</div>
+<script>
+function rand(){
+  return Math.floor(Math.random()*9)+1;
+}
 
-<footer>
-<p>© 2026 NOVÉA8 – practice site</p>
-</footer>
+function play(){
+  let player = rand()+rand();
+  let banker = rand()+rand();
+
+  player = player % 10;
+  banker = banker % 10;
+
+  let msg=”“;
+
+  if(player > banker) msg=”플레이어 승“;
+  else if(player < banker) msg=”뱅커 승“;
+  else msg=”무승부“;
+
+  document.getElementById(”result“).innerText =
+  ”Player: “+player+” / Banker: “+banker+” → “+msg;
+}
+</script>
 
 </body>
-</html>
+  </html>

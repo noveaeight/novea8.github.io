@@ -146,8 +146,18 @@ function render(el,cards){ el.innerHTML=''; cards.forEach(c=>{ const d=document.
 function save(){ localStorage.setItem('coins',coins); }
 function updateWallet(){ walletEl.textContent=`보유 코인: ${coins} | 배팅: ${betAmount}`; }
 
+  // ====== 카드 딜 애니메이션 ======
+function animateDeal(tx, ty){
+  const c = document.createElement('div');
+  c.className = 'fly-card';
+  c.style.setProperty('--tx', tx + 'px');
+  c.style.setProperty('--ty', ty + 'px');
+  document.querySelector('.table').appendChild(c);
+  setTimeout(()=>c.remove(),700); // 0 하나 빠졌었음 (중요)
+}
+
 // ====== 베팅 ======
-$$('.zone').forEach(z=>z.onclick=()=>{
+  $$('.zone').forEach(z=>z.onclick=()=>{
   $$('.zone').forEach(x=>x.classList.remove('active'));
   z.classList.add('active'); betTarget=z.dataset.bet; statusEl.textContent=`${betTarget} 선택`; });
 $$('.chip').forEach(c=>c.onclick=()=>{ const v=Number(c.dataset.chip); if(coins>=v && !canDeal){ coins-=v; betAmount+=v; save(); updateWallet(); }});

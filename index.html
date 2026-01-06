@@ -161,6 +161,12 @@ function startTimer(sec=5){ clearInterval(timerId); canDeal=false; let t=sec; ti
 $('#dealBtn').onclick=()=>{
   if(!canDeal||!betTarget||betAmount<=0) return;
   canDeal=false;
+
+  // 🐜 개미 딜 시작 모션
+const dealer = document.querySelector('.dealer');
+dealer.classList.add('dealing');
+setTimeout(()=>dealer.classList.remove('dealing'),600);
+
   const p=[draw(),draw()], b=[draw(),draw()];
   const ps=score(p), bs=score(b);
   render(pCards,p); render(bCards,b);

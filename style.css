@@ -1,37 +1,20 @@
 body{
-background:#050810;
+background:#080c14;
 color:white;
-font-family:-apple-system, Arial;
 text-align:center;
+font-family:Arial;
 }
 
-.nav a{
-margin:12px;
-color:white;
-text-decoration:none;
-font-size:14px;
-}
-
-.hero{
-margin-top:60px;
-}
-
-.story{
+.gamebox{
+border:1px solid white;
 margin:30px;
 padding:20px;
-border:1px solid white;
-}
-
-.item{
-border:1px solid white;
-margin:20px;
-padding:15px;
 }
 
 button{
+margin:10px;
+padding:10px;
+border:1px solid white;
 background:#111;
 color:white;
-border:1px solid white;
-padding:8px;
-margin-top:8px;
 }

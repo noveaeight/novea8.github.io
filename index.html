@@ -1,68 +1,111 @@
 <!DOCTYPE html>
-<html lang=”ko“>
+<html lang="ko">
 <head>
-<meta charset=”UTF-8“>
-<meta name=”viewport“ content=”width=device-width, initial-scale=1.0“>
-<title>Practice Baccarat</title>
-<link rel=”stylesheet“ href=”style.css“>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>바카라 연습 (플레이 머니)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background:#0b3d2e; color:#fff; margin:0; }
+    header { padding:16px; text-align:center; font-size:20px; font-weight:700; }
+    .wrap { max-width:900px; margin:0 auto; padding:16px; }
+    .table { background:#0e4f3a; border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.3); }
+    .row { display:flex; gap:12px; flex-wrap:wrap; }
+    .col { flex:1; min-width:220px; background:#0b3d2e; border-radius:12px; padding:12px; }
+    h3 { margin:0 0 8px 0; }
+    .cards { display:flex; gap:8px; min-height:64px; }
+    .card { width:44px; height:64px; background:#fff; color:#111; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+    .score { font-size:18px; margin-top:6px; }
+    .controls { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+    button { background:#1dd1a1; border:none; border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer; }
+    button.secondary { background:#54a0ff; }
+    button.warn { background:#ff6b6b; }
+    .status { margin-top:12px; font-size:18px; font-weight:700; }
+    footer { text-align:center; opacity:.8; margin-top:12px; font-size:12px; }
+  </style>
 </head>
-
 <body>
+  <header>바카라 연습 (플레이 머니 · 돈 X)</header>
+  <div class="wrap">
+    <div class="table">
+      <div class="row">
+        <div class="col">
+          <h3>플레이어</h3>
+          <div id="playerCards" class="cards"></div>
+          <div id="playerScore" class="score">점수: 0</div>
+        </div>
+        <div class="col">
+          <h3>뱅커</h3>
+          <div id="bankerCards" class="cards"></div>
+          <div id="bankerScore" class="score">점수: 0</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button onclick="deal()">한 판 시작</button>
+        <button class="secondary" onclick="resetGame()">리셋</button>
+      </div>
+      <div id="status" class="status"></div>
+    </div>
+    <footer>연습/시뮬레이션용 · 실제 도박 아님</footer>
+  </div>
 
-<h1>바카라 – 카드 그래픽</h1>
+  <script>
+    const suits = ['♠','♥','♦','♣'];
+    const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 
-<p>Player 카드</p>
-<img id=”p1“ src=”“>
-<img id=”p2“ src=”“>
+    function cardValue(rank){
+      if(rank === 'A') return 1;
+      if(['10','J','Q','K'].includes(rank)) return 0;
+      return parseInt(rank);
+    }
 
-<p>Banker 카드</p>
-<img id=”b1“ src=”“>
-<img id=”b2“ src=”“>
+    function drawCard(){
+      const suit = suits[Math.floor(Math.random()*suits.length)];
+      const rank = ranks[Math.floor(Math.random()*ranks.length)];
+      return { suit, rank, value: cardValue(rank) };
+    }
 
-<br>
+    function score(cards){
+      return cards.reduce((a,c)=>a+c.value,0) % 10;
+    }
 
-<button onclick=”play()“>돌리기</button>
+    function renderCards(el, cards){
+      el.innerHTML='';
+      cards.forEach(c=>{
+        const d=document.createElement('div');
+        d.className='card';
+        d.textContent = c.rank + c.suit;
+        el.appendChild(d);
+      });
+    }
 
-<p id=”board“></p>
+    function deal(){
+      const p=[drawCard(), drawCard()];
+      const b=[drawCard(), drawCard()];
 
-<script>
+      // 간단한 바카라 규칙 (자연 승부만)
+      const ps=score(p);
+      const bs=score(b);
 
-function card(){
- return Math.floor(Math.random()*9)+1;
-}
+      renderCards(document.getElementById('playerCards'), p);
+      renderCards(document.getElementById('bankerCards'), b);
+      document.getElementById('playerScore').textContent='점수: '+ps;
+      document.getElementById('bankerScore').textContent='점수: '+bs;
 
-function img(n){
- return ”card“+n+”.png“;
-}
+      let result='';
+      if(ps>bs) result='플레이어 승';
+      else if(bs>ps) result='뱅커 승';
+      else result='타이';
 
-function play(){
+      document.getElementById('status').textContent = result;
+    }
 
- let c1=card();
- let c2=card();
- let c3=card();
- let c4=card();
-
- document.getElementById(”p1“).src = img(c1);
- document.getElementById(”p2“).src = img(c2);
-document.getElementById(”b1“).src = img(c3);
- document.getElementById(”b2“).src = img(c4);
-
- let player = (c1+c2)%10;
- let banker = (c3+c4)%10;
-
- let r=”“;
-
- if(player > banker) r=”플레이어 승“;
- else if(player < banker) r=”뱅커 승“;
- else r=”무승부“;
-
- document.getElementById(”board“).innerText =
- ”Player: “+player+” / Banker: “+banker+” → “+r;
-
-}
-
-</script>
-
+    function resetGame(){
+      document.getElementById('playerCards').innerHTML='';
+      document.getElementById('bankerCards').innerHTML='';
+      document.getElementById('playerScore').textContent='점수: 0';
+      document.getElementById('bankerScore').textContent='점수: 0';
+      document.getElementById('status').textContent='';
+    }
+  </script>
 </body>
-</html>
-  
+       </html>

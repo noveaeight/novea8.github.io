@@ -5,119 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>바카라 연습 (플레이 머니)</title>
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #145a46, #06261c 70%);
-      color: #fff;
-      margin: 0;
-      min-height: 100vh;
-    }
-    header {
-      padding: 18px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      background: linear-gradient(90deg, #1dd1a1, #54a0ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .wrap { max-width: 960px; margin: 0 auto; padding: 20px; }
-    .table {
-      background: linear-gradient(180deg, #0f5c45, #0a3a2c);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-    .row { display:flex; gap:16px; flex-wrap:wrap; }
-    .col {
-      flex:1;
-      min-width:240px;
-      background: rgba(0,0,0,.25);
-      border-radius: 18px;
-      padding: 14px;
-      backdrop-filter: blur(4px);
-    }
-    h3 { margin:0 0 10px 0; text-align:center; letter-spacing:2px; }
-    .cards { display:flex; gap:10px; min-height:72px; justify-content:center; }
-    .card {
-      width:48px;
-      height:72px;
-      background: linear-gradient(180deg, #ffffff, #f1f1f1);
-      color:#111;
-      border-radius:8px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      box-shadow: 0 6px 14px rgba(0,0,0,.25);
-      animation: pop .25s ease;
-    }
-    @keyframes pop { from{transform:scale(.8); opacity:.5} to{transform:scale(1); opacity:1} }
-    .score { font-size:20px; margin-top:8px; text-align:center; font-weight:700; }
-    .controls { display:flex; gap:10px; margin-top:18px; justify-content:center; flex-wrap:wrap; }
-    button {
-      background: linear-gradient(180deg, #1dd1a1, #10ac84);
-      border:none;
-      border-radius:14px;
-      padding:12px 20px;
-      font-weight:800;
-      font-size:15px;
-      cursor:pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,.35);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    button:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,.45); }
-    button.secondary { background: linear-gradient(180deg, #54a0ff, #2e86de); }
-    .status {
-      margin-top:16px;
-      font-size:22px;
-      font-weight:900;
-      text-align:center;
-      letter-spacing:2px;
-    }
-    footer { text-align:center; opacity:.7; margin-top:14px; font-size:12px; }
-  </style>
+body{margin:0;font-family:system-ui,sans-serif;background:#2b0000;color:#fff}
+header{padding:14px;text-align:center;font-size:24px;font-weight:900;color:#ffd166}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}
+.table.casino{background:radial-gradient(circle at top,#a4161a,#5a0f12 70%);border-radius:40px;padding:30px;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+.bet-arc{display:flex;justify-content:space-between;gap:8px;margin-bottom:26px}
+.zone{flex:1;padding:22px 10px;border-radius:18px;text-align:center;font-weight:900;font-size:20px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+.zone.player{background:linear-gradient(180deg,#4dabf7,#1c7ed6)}
+.zone.banker{background:linear-gradient(180deg,#ff6b6b,#c92a2a)}
+.zone.tie{background:linear-gradient(180deg,#51cf66,#2f9e44);color:#111}
+.zone.pair{background:#457b9d}
+.chips{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:20px 0}
+.chip{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.6);border:4px dashed rgba(255,255,255,.4)}
+.c1{background:#edf2f4;color:#111}.c10{background:#48cae4;color:#111}.c50{background:#2a9d8f}.c100{background:#e9c46a;color:#111}.c500{background:#f4a261}.c1000{background:#e76f51}
+.controls{text-align:center;margin-top:10px}
+.deal{background:linear-gradient(180deg,#ffd166,#fca311);color:#111;font-size:20px;font-weight:900;padding:16px 44px;border:none;border-radius:22px;cursor:pointer;box-shadow:0 14px 36px rgba(0,0,0,.6)}
+.status{text-align:center;font-size:20px;font-weight:900;margin-top:12px}
+footer{text-align:center;opacity:.6;font-size:12px;margin-top:14px}
+</style>
 </head>
 <body>
   <header>바카라 연습 (플레이 머니 · 돈 X)</header>
   <div class="wrap">
-    <div class="table">
+    <div class="table casino">
       <div class="row">
         <div class="col">
-          <h3>플레이어</h3>
+          <h3>PLAYER</h3>
           <div id="playerCards" class="cards"></div>
           <div id="playerScore" class="score">점수: 0</div>
         </div>
         <div class="col">
-          <h3>뱅커</h3>
+          <h3>BANKER</h3>
           <div id="bankerCards" class="cards"></div>
           <div id="bankerScore" class="score">점수: 0</div>
         </div>
       </div>
-      <div class="controls">
-        <button onclick="selectBet('PLAYER')">플레이어 государственного</button>
-        <button onclick="selectBet('BANKER')">뱅커</button>
-        <button onclick="selectBet('TIE')">타이</button>
+
+      <div class="bet-arc">
+      <div class="bet-arc">
+        <div class="zone player" onclick="selectBet('PLAYER')">PLAYER</div>
+        <div class="zone tie" onclick="selectBet('TIE')">TIE</div>
+        <div class="zone banker" onclick="selectBet('BANKER')">BANKER</div>
       </div>
-      <div class="controls">
-        <button onclick="addBet(1)">+1</button>
-        <button onclick="addBet(10)">+10</button>
-        <button onclick="addBet(50)">+50</button>
-        <button onclick="addBet(100)">+100</button>
-        <button onclick="addBet(500)">+500</button>
-        <button onclick="addBet(1000)">+1000</button>
+        <div class="zone player">PLAYER ×1</div>
+        <div class="zone tie">TIE ×8</div>
+        <div class="zone banker">BANKER ×0.95</div>
+        <div class="zone pair banker-pair">B.Pair ×11</div>
       </div>
-      <div class="controls">
-        <button class="secondary" onclick="deal()">딜</button>
-        <button class="warn" onclick="resetGame()">리셋</button>
+
+      <div class="chips">
+        <div class="chip c1" onclick="addBet(1)">1</div>
+        <div class="chip c10" onclick="addBet(10)">10</div>
+        <div class="chip c50" onclick="addBet(50)">50</div>
+        <div class="chip c100" onclick="addBet(100)">100</div>
+        <div class="chip c500" onclick="addBet(500)">500</div>
+        <div class="chip c1000" onclick="addBet(1000)">1000</div>
       </div>
+
+      <div class="controls">
+        <button class="deal" onclick="deal()">DEAL</button>
+      </div>
+
       <div id="wallet" class="status"></div>
       <div id="status" class="status"></div>
-      <div id="status" class="status"></div>
     </div>
-    <footer>연습/시뮬레이션용 · 실제 도박 아님</footer>
+    <footer>바카라 연습 · 플레이 머니</footer>연습/시뮬레이션용 · 실제 도박 아님</footer>
   </div>
 
   <script>
@@ -201,15 +153,7 @@
       updateWallet();
     }
 
-    function resetGame(){
-      localStorage.removeItem('coins');
-      coins = 1000;
-      betAmount = 0;
-      betTarget = null;
-      saveCoins();
-      updateWallet();
-      document.getElementById('status').textContent='';
-    }
+    
 
     function saveCoins(){
       localStorage.setItem('coins', coins);
@@ -221,6 +165,3 @@
   </script>
 </body>
 </html>
-
-
-

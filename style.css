@@ -44,4 +44,19 @@
   font-size:32px;
 }
 
+/* 딜러는 클릭 막기 */
+.dealer-zone {
+  pointer-events: none;
+}
+
+/* 버튼 / 칩은 클릭 가능 */
+.controls,
+.chips,
+.zone,
+.deal,
+.chip {
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
 

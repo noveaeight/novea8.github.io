@@ -1,20 +1,31 @@
-body{
-background:#080c14;
-color:white;
-text-align:center;
-font-family:Arial;
+.card{
+  width:64px;
+  height:96px;
+  background:linear-gradient(180deg,#fff,#f1f1f1);
+  border-radius:10px;
+  padding:6px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  box-shadow:0 8px 20px rgba(0,0,0,.45);
+  animation: pop .25s ease;
 }
 
-.gamebox{
-border:1px solid white;
-margin:30px;
-padding:20px;
+.card.red{ color:#c92a2a }
+.card.black{ color:#111 }
+
+.rank{
+  font-size:16px;
+  font-weight:900;
 }
 
-button{
-margin:10px;
-padding:10px;
-border:1px solid white;
-background:#111;
-color:white;
+.rank.bottom{
+  transform: rotate(180deg);
+  text-align:right;
 }
+
+.suit.center{
+  font-size:30px;
+  text-align:center;
+}
+

@@ -107,7 +107,14 @@
         <button onclick="addBet(50)">+50</button>
         <button onclick="addBet(100)">+100</button>
         <button onclick="addBet(500)">+500</button>
-        <button onclick="addBet(1000)">+1000</but
+        <button onclick="addBet(1000)">+1000</button>
+      </div>
+      <div class="controls">
+        <button class="secondary" onclick="deal()">딜</button>
+        <button class="warn" onclick="resetGame()">리셋</button>
+      </div>
+      <div id="wallet" class="status"></div>
+      <div id="status" class="status"></div>
       <div id="status" class="status"></div>
     </div>
     <footer>연습/시뮬레이션용 · 실제 도박 아님</footer>
@@ -116,6 +123,12 @@
   <script>
     const suits = ['♠','♥','♦','♣'];
     const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+
+    let coins = parseInt(localStorage.getItem('coins')) || 1000;
+    let betAmount = 0;
+    let betTarget = null;
+
+    updateWallet();
 
     function cardValue(rank){
       if(rank === 'A') return 1;
@@ -143,11 +156,25 @@
       });
     }
 
+    function selectBet(target){
+      betTarget = target;
+      document.getElementById('status').textContent = target + ' 선택됨';
+    }
+
+    function addBet(amount){
+      if(coins >= amount){
+        betAmount += amount;
+        coins -= amount;
+        saveCoins();
+        updateWallet();
+      }
+    }
+
     function deal(){
+      if(!betTarget || betAmount === 0) return;
+
       const p=[drawCard(), drawCard()];
       const b=[drawCard(), drawCard()];
-
-      // 간단한 바카라 규칙 (자연 승부만)
       const ps=score(p);
       const bs=score(b);
 
@@ -156,23 +183,44 @@
       document.getElementById('playerScore').textContent='점수: '+ps;
       document.getElementById('bankerScore').textContent='점수: '+bs;
 
-      let result='';
-      if(ps>bs) result='플레이어 승';
-      else if(bs>ps) result='뱅커 승';
-      else result='타이';
+      let result='TIE';
+      if(ps>bs) result='PLAYER';
+      else if(bs>ps) result='BANKER';
 
-      document.getElementById('status').textContent = result;
+      if(result === betTarget){
+        let win = betAmount * (result==='TIE'?8:2);
+        coins += win;
+        document.getElementById('status').textContent = '승리 +' + win;
+      } else {
+        document.getElementById('status').textContent = '패배 -' + betAmount;
+      }
+
+      betAmount = 0;
+      betTarget = null;
+      saveCoins();
+      updateWallet();
     }
 
     function resetGame(){
-      document.getElementById('playerCards').innerHTML='';
-      document.getElementById('bankerCards').innerHTML='';
-      document.getElementById('playerScore').textContent='점수: 0';
-      document.getElementById('bankerScore').textContent='점수: 0';
+      localStorage.removeItem('coins');
+      coins = 1000;
+      betAmount = 0;
+      betTarget = null;
+      saveCoins();
+      updateWallet();
       document.getElementById('status').textContent='';
+    }
+
+    function saveCoins(){
+      localStorage.setItem('coins', coins);
+    }
+
+    function updateWallet(){
+      document.getElementById('wallet').textContent = '보유 코인: ' + coins + ' | 배팅: ' + betAmount;
     }
   </script>
 </body>
 </html>
+
 
 
